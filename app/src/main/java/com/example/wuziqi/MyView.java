@@ -1,6 +1,8 @@
 package com.example.wuziqi;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -20,6 +22,12 @@ public class MyView extends View{
     private final String TAG="MyView";
 
     private Paint mPaint;//画笔
+    //引入棋子的图片
+    private Bitmap mWhitePiece;
+    private Bitmap mBlackPiece;
+
+    //比例
+    private float ratioPieceOfLineHeight=3*1.0f/4;
 
 
     public MyView(Context context, AttributeSet attrs) {
@@ -28,6 +36,12 @@ public class MyView extends View{
         //View的背景颜色，易于区分布局
         setBackgroundColor(0x44ff0000);
         initPaint();
+        initBitmap();
+    }
+
+    private void initBitmap() {
+        mWhitePiece= BitmapFactory.decodeResource(getResources(),R.drawable.stone_w2);
+        mBlackPiece=BitmapFactory.decodeResource(getResources(),R.drawable.stone_b1);
     }
 
     /**
@@ -78,6 +92,11 @@ public class MyView extends View{
         Log.d(TAG,"onSizeChanged方法执行了");
         mPanelWidth=w;
         mLineHeight=mPanelWidth*1.0f/MAX_LINE;
+
+        //棋子图片大小
+        int pieceWidth= (int) (mLineHeight*ratioPieceOfLineHeight);
+        mWhitePiece=Bitmap.createScaledBitmap(mWhitePiece,pieceWidth,pieceWidth,false);
+        mBlackPiece=Bitmap.createScaledBitmap(mBlackPiece,pieceWidth,pieceWidth,false);
     }
 
     @Override
