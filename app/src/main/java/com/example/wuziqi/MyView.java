@@ -15,6 +15,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.wuziqi.util.CheckFiveLineUtil.checkHorizontal;
+import static com.example.wuziqi.util.CheckFiveLineUtil.checkLeftDiagonal;
+import static com.example.wuziqi.util.CheckFiveLineUtil.checkRightDiagonal;
+import static com.example.wuziqi.util.CheckFiveLineUtil.checkVertical;
+
 /**
  * 作者：国富小哥
  * 日期：2017/6/8
@@ -42,7 +47,7 @@ public class MyView extends View{
 
     private boolean isGameOver;
     private boolean isWhiteWinner;
-    private int MAX_COUNT_IN_LINE=5;
+
 
 
     public MyView(Context context, AttributeSet attrs) {
@@ -171,111 +176,9 @@ public class MyView extends View{
         return false;
     }
 
-    /**
-     * 检查横向是否有五子连珠
-     * */
-    private boolean checkHorizontal(int x, int y, List<Point> pointList) {
-            int count=1;
-        //左边
-        for (int i=1;i<MAX_COUNT_IN_LINE;i++){
-            if (pointList.contains(new Point(x-i,y))){
-                count++;
-            }else {
-                break;
-            }
-        }
-        if (count==MAX_COUNT_IN_LINE){return true;}
-        //右边
-        for (int i=1;i<MAX_COUNT_IN_LINE;i++){
-            if (pointList.contains(new Point(x+i,y))){
-                count++;
-            }else {
-                break;
-            }
-        }
-        if (count==MAX_COUNT_IN_LINE){return true;}
-        return false;
-    }
-
-    /**
-     * 检查纵向是否有五子连珠
-     * */
-    private boolean checkVertical(int x, int y, List<Point> pointList) {
-        int count=1;
-        //上边
-        for (int i=1;i<MAX_COUNT_IN_LINE;i++){
-            if (pointList.contains(new Point(x,y-i))){
-                count++;
-            }else {
-                break;
-            }
-        }
-        if (count==MAX_COUNT_IN_LINE){return true;}
-        //下边
-        for (int i=1;i<MAX_COUNT_IN_LINE;i++){
-            if (pointList.contains(new Point(x,y+i))){
-                count++;
-            }else {
-                break;
-            }
-        }
-        if (count==MAX_COUNT_IN_LINE){return true;}
-        return false;
-    }
 
 
-    /**
-     * 检查左斜向是否有五子连珠
-     * */
-    private boolean checkLeftDiagonal(int x, int y, List<Point> pointList) {
-        int count=1;
-        //上边
-        for (int i=1;i<MAX_COUNT_IN_LINE;i++){
-            if (pointList.contains(new Point(x-i,y+i))){
-                count++;
-            }else {
-                break;
-            }
-        }
-        if (count==MAX_COUNT_IN_LINE){return true;}
-        //下边
-        for (int i=1;i<MAX_COUNT_IN_LINE;i++){
-            if (pointList.contains(new Point(x+i,y-i))){
-                count++;
-            }else {
-                break;
-            }
-        }
-        if (count==MAX_COUNT_IN_LINE){return true;}
-        return false;
-    }
 
-
-    /**
-     * 检查右斜向向是否有五子连珠
-     * */
-    private boolean checkRightDiagonal(int x, int y, List<Point> pointList) {
-        int count=1;
-        //上边
-        for (int i=1;i<MAX_COUNT_IN_LINE;i++){
-            if (pointList.contains(new Point(x-i,y-i))){
-                count++;
-            }else {
-                break;
-            }
-        }
-        if (count==MAX_COUNT_IN_LINE){return true;}
-        //下边
-        for (int i=1;i<MAX_COUNT_IN_LINE;i++){
-            if (pointList.contains(new Point(x+i,y+i))){
-                count++;
-            }else {
-                break;
-            }
-        }
-        if (count==MAX_COUNT_IN_LINE){return true;}
-        return false;
-    }
 
     /**
      * 画棋子
