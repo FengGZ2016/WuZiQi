@@ -56,7 +56,7 @@ public class MyView extends View{
         super(context, attrs);
         Log.d(TAG,"构造方法执行了");
         //View的背景颜色，易于区分布局
-        setBackgroundColor(0x44ff0000);
+        //setBackgroundColor(0x44ff0000);
         initPaint();
         initBitmap();
     }
@@ -296,5 +296,17 @@ public class MyView extends View{
             return;
         }
         super.onRestoreInstanceState(state);
+    }
+
+
+    /**
+     * 再来一局
+     * */
+    public void start(){
+        whitePointList.clear();
+        blackPointList.clear();
+        isGameOver=false;
+        isWhiteWinner=false;
+        invalidate();
     }
 }
