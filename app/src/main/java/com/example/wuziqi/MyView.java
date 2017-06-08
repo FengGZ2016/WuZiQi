@@ -155,7 +155,18 @@ public class MyView extends View{
             int x=point.x;
             int y=point.y;
 
+            //检查横向
             boolean win=checkHorizontal(x,y,PointList);
+            if (win){return true;}
+            //检查纵向
+            win=checkVertical(x,y,PointList);
+            if (win){return true;}
+            //检查左斜向
+            win=checkLeftDiagonal(x,y,PointList);
+            if (win){return true;}
+            //检查右斜向
+            win=checkRightDiagonal(x,y,PointList);
+            if (win){return true;}
         }
         return false;
     }
