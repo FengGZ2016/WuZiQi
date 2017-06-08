@@ -5,9 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 作者：国富小哥
@@ -28,6 +33,11 @@ public class MyView extends View{
 
     //比例
     private float ratioPieceOfLineHeight=3*1.0f/4;
+
+    List<Point> whitePointList=new ArrayList<>();
+    List<Point> blackPointList=new ArrayList<>();
+    //当前为白棋
+    private boolean isWhite=true;
 
 
     public MyView(Context context, AttributeSet attrs) {
@@ -139,5 +149,33 @@ public class MyView extends View{
             int endY=(int) (w-lineHeight/2);
             canvas.drawLine(startX,startY,endX,endY,mPaint);
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int action=event.getAction();
+        if (action==MotionEvent.ACTION_UP){
+            int x= (int) event.getX();
+            int y= (int) event.getY();
+            Point point=getValidPoint(x,y);
+            if (whitePointList.contains(point)||blackPointList.contains(point)){
+                return false;
+            }
+            if (isWhite){
+                whitePointList.add(point);
+            }else {
+                blackPointList.add(point);
+            }
+            //重绘
+            invalidate();
+            isWhite=!isWhite;
+
+        }
+
+        return true;
+    }
+
+    private Point getValidPoint(int x, int y) {
+        return new Point((int)( x/mLineHeight),(int) (y/mLineHeight));
     }
 }
