@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,10 @@ public class MyView extends View{
     List<Point> blackPointList=new ArrayList<>();
     //当前为白棋
     private boolean isWhite=true;
+
+    private boolean isGameOver;
+    private boolean isWhiteWinner;
+    private int MAX_COUNT_IN_LINE=5;
 
 
     public MyView(Context context, AttributeSet attrs) {
@@ -116,6 +121,69 @@ public class MyView extends View{
         drawBoard(canvas);
         //再画棋子
         drawPiece(canvas);
+        //检查游戏是否结束
+        checkGameOver();
+    }
+
+    /**
+     * 检查游戏是否结束
+     * */
+    private void checkGameOver() {
+        boolean whiteWin=checkFiveLine(whitePointList);
+        boolean blackWin=checkFiveLine(blackPointList);
+
+        if (whiteWin||blackWin){
+            //有任何一方赢了，游戏就结束
+            isGameOver=true;
+            isWhiteWinner=whiteWin;
+            if (isWhiteWinner){
+                //白棋赢
+                Toast.makeText(getContext(),"白棋胜利！",Toast.LENGTH_SHORT).show();
+            }else {
+                //黑棋赢
+                Toast.makeText(getContext(),"黑棋胜利！",Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    /**
+     * 检查是否有五子连珠
+     * */
+    private boolean checkFiveLine(List<Point> PointList) {
+        for (Point point:PointList){
+            int x=point.x;
+            int y=point.y;
+
+            boolean win=checkHorizontal(x,y,PointList);
+        }
+        return false;
+    }
+
+    /**
+     * 检查横向是否有五子连珠
+     * */
+    private boolean checkHorizontal(int x, int y, List<Point> pointList) {
+            int count=1;
+        //左边
+        for (int i=1;i<MAX_COUNT_IN_LINE;i++){
+            if (pointList.contains(new Point(x-i,y))){
+                count++;
+            }else {
+                break;
+            }
+        }
+        if (count==MAX_COUNT_IN_LINE){return true;}
+        //右边
+        for (int i=1;i<MAX_COUNT_IN_LINE;i++){
+            if (pointList.contains(new Point(x+i,y))){
+                count++;
+            }else {
+                break;
+            }
+        }
+        if (count==MAX_COUNT_IN_LINE){return true;}
+        return false;
     }
 
     /**
@@ -172,6 +240,9 @@ public class MyView extends View{
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (isGameOver){
+            return false;
+        }
         int action=event.getAction();
         if (action==MotionEvent.ACTION_UP){
             int x= (int) event.getX();
