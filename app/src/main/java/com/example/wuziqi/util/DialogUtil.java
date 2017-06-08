@@ -12,10 +12,14 @@ import android.support.v7.app.AlertDialog;
 
 public class DialogUtil {
 
-    private Activity mActivity;
+    private static Activity mActivity;
+
+
     public DialogUtil(Activity mActivity){
        this.mActivity=mActivity;
+
     }
+
 
     /**
      * 退出游戏的对话框
@@ -35,8 +39,14 @@ public class DialogUtil {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+
             }
         });
         builder.create().show();
     }
+
+
+
+
+
 }

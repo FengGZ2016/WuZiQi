@@ -22,7 +22,10 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         mMyView= (MyView) findViewById(R.id.id_my_view);
         dialogUtil=new DialogUtil(this);
+
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
           }
         return false;
     }
+
+
 
 
 //    private long exitTime=0;

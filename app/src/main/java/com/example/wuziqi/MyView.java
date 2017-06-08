@@ -1,6 +1,8 @@
 package com.example.wuziqi;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,11 +10,11 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,16 +49,18 @@ public class MyView extends View{
     //当前为白棋
     private boolean isWhite=true;
 
-    private boolean isGameOver;
-    private boolean isWhiteWinner;
+    public boolean isGameOver;
+    public boolean isWhiteWinner;
 
 
 
     public MyView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
         Log.d(TAG,"构造方法执行了");
         //View的背景颜色，易于区分布局
         //setBackgroundColor(0x44ff0000);
+
         initPaint();
         initBitmap();
     }
@@ -145,14 +149,40 @@ public class MyView extends View{
             isWhiteWinner=whiteWin;
             if (isWhiteWinner){
                 //白棋赢
-                Toast.makeText(getContext(),"白棋胜利！",Toast.LENGTH_SHORT).show();
+              showOverDialog("白棋胜利");
             }else {
                 //黑棋赢
-                Toast.makeText(getContext(),"黑棋胜利！",Toast.LENGTH_SHORT).show();
+                showOverDialog("黑棋胜利");
             }
         }
 
     }
+
+    /**
+     * 游戏结束的对话框
+     * */
+    private void showOverDialog( String mes){
+
+        AlertDialog.Builder dialog=new AlertDialog.Builder(getContext());
+        dialog.setTitle("游戏结束");
+        dialog.setMessage(mes);
+        dialog.setPositiveButton("再来一局", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                    start();
+            }
+        });
+        dialog.setNegativeButton("退出游戏", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ((Activity)getContext()).finish();
+            }
+        });
+        dialog.create().show();
+    }
+
+
+
 
     /**
      * 检查是否有五子连珠
@@ -298,15 +328,17 @@ public class MyView extends View{
         super.onRestoreInstanceState(state);
     }
 
-
     /**
      * 再来一局
      * */
-    public void start(){
+
+    public void start() {
         whitePointList.clear();
         blackPointList.clear();
         isGameOver=false;
         isWhiteWinner=false;
         invalidate();
     }
+
+
 }
