@@ -1,7 +1,10 @@
 package com.example.wuziqi;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -11,12 +14,33 @@ import android.view.View;
  */
 
 public class MyView extends View{
+    private int mPanelWidth;//棋盘宽度
+    private float mLineHeight;//行高
+    private int MAX_LINE=10;//总行数
+    private final String TAG="MyView";
+
+    private Paint mPaint;//画笔
 
 
     public MyView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        Log.d(TAG,"构造方法执行了");
         //View的背景颜色，易于区分布局
         setBackgroundColor(0x44ff0000);
+        initPaint();
+    }
+
+    /**
+     * 初始化画笔
+     * */
+    private void initPaint() {
+        mPaint=new Paint();
+        mPaint.setColor(0x88000000);
+        //设置抗锯齿
+        mPaint.setAntiAlias(true);
+        //设置防抖动。
+        mPaint.setDither(true);
+        mPaint.setStyle(Paint.Style.STROKE);
     }
 
     /**
@@ -28,6 +52,7 @@ public class MyView extends View{
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        Log.d(TAG,"onMeasure方法执行了");
         //通过辅助类获取size尺寸和mode模式
         int widthSize=MeasureSpec.getSize(widthMeasureSpec);
         int widthMode=MeasureSpec.getMode(widthMeasureSpec);
@@ -45,5 +70,40 @@ public class MyView extends View{
 
         //调用setMeasuredDimension(int, int)设置实际大小
         setMeasuredDimension(width,width);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        Log.d(TAG,"onSizeChanged方法执行了");
+        mPanelWidth=w;
+        mLineHeight=mPanelWidth*1.0f/MAX_LINE;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        //先画棋盘
+        drawBoard(canvas);
+    }
+
+    /**
+     * 画棋盘
+     * */
+    private void drawBoard(Canvas canvas) {
+    //拿到棋盘宽度和行高
+        int w=mPanelWidth;
+        float lineHeight=mLineHeight;
+
+        //先画横线
+        for (int i=0;i<MAX_LINE;i++){
+            //x轴起始处
+            int startX= (int) (lineHeight/2);
+            //x轴结束处
+            int endX= (int) (w-lineHeight/2);
+            //y轴
+            int y= (int) ((0.5+i)*lineHeight);
+            canvas.drawLine(startX,y,endX,y,mPaint);
+        }
     }
 }
