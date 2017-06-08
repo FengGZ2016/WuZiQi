@@ -187,6 +187,32 @@ public class MyView extends View{
     }
 
     /**
+     * 检查纵向是否有五子连珠
+     * */
+    private boolean checkVertical(int x, int y, List<Point> pointList) {
+        int count=1;
+        //上边
+        for (int i=1;i<MAX_COUNT_IN_LINE;i++){
+            if (pointList.contains(new Point(x,y-i))){
+                count++;
+            }else {
+                break;
+            }
+        }
+        if (count==MAX_COUNT_IN_LINE){return true;}
+        //下边
+        for (int i=1;i<MAX_COUNT_IN_LINE;i++){
+            if (pointList.contains(new Point(x,y+i))){
+                count++;
+            }else {
+                break;
+            }
+        }
+        if (count==MAX_COUNT_IN_LINE){return true;}
+        return false;
+    }
+
+    /**
      * 画棋子
      * */
     private void drawPiece(Canvas canvas) {
