@@ -165,6 +165,7 @@ public class MyView extends View{
 
         AlertDialog.Builder dialog=new AlertDialog.Builder(getContext());
         dialog.setTitle("游戏结束");
+        dialog.setIcon(R.drawable.win);
         dialog.setMessage(mes);
         dialog.setPositiveButton("再来一局", new DialogInterface.OnClickListener() {
             @Override
