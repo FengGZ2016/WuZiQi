@@ -114,6 +114,25 @@ public class MyView extends View{
         super.onDraw(canvas);
         //先画棋盘
         drawBoard(canvas);
+        //再画棋子
+        drawPiece(canvas);
+    }
+
+    /**
+     * 画棋子
+     * */
+    private void drawPiece(Canvas canvas) {
+        for (int i=0;i<whitePointList.size();i++){
+            Point whitePoint=whitePointList.get(i);
+            canvas.drawBitmap(mWhitePiece,(whitePoint.x+(1-ratioPieceOfLineHeight)/2)*mLineHeight,(whitePoint.y+(1-ratioPieceOfLineHeight)/2)*mLineHeight,null);
+
+        }
+
+        for (int i=0;i<blackPointList.size();i++){
+            Point blackPoint=blackPointList.get(i);
+            canvas.drawBitmap(mBlackPiece,(blackPoint.x+(1-ratioPieceOfLineHeight)/2)*mLineHeight,(blackPoint.y+(1-ratioPieceOfLineHeight)/2)*mLineHeight,null);
+
+        }
     }
 
     /**
