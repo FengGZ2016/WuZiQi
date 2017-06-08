@@ -96,14 +96,29 @@ public class MyView extends View{
         float lineHeight=mLineHeight;
 
         //先画横线
+        //drawLine (float startX, float startY, float stopX, float stopY, Paint paint)
         for (int i=0;i<MAX_LINE;i++){
             //x轴起始处
             int startX= (int) (lineHeight/2);
+            //y轴起始处
+            int startY= (int) ((0.5+i)*lineHeight);
             //x轴结束处
             int endX= (int) (w-lineHeight/2);
-            //y轴
-            int y= (int) ((0.5+i)*lineHeight);
-            canvas.drawLine(startX,y,endX,y,mPaint);
+            //y轴结束处
+            int endY= (int) ((0.5+i)*lineHeight);
+            canvas.drawLine(startX,startY,endX,endY,mPaint);
+        }
+        //再画纵线
+        for (int i=0;i<MAX_LINE;i++){
+            //x轴起始处
+            int startX=(int) ((0.5+i)*lineHeight);
+            //y轴起始处
+            int startY=(int) (lineHeight/2);
+            //x轴结束处
+            int endX=(int) ((0.5+i)*lineHeight);
+            //y轴结束处
+            int endY=(int) (w-lineHeight/2);
+            canvas.drawLine(startX,startY,endX,endY,mPaint);
         }
     }
 }
